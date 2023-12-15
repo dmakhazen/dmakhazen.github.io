@@ -23,5 +23,16 @@
 <body>
 <h1>Hello World</h1>
 <p>I'm hosted with GitHub Pages.</p>
+
+<button id="colorButton">Change Color</button>
+
+<script>
+    let colorButton = document.getElementById('colorButton');
+    colorButton.addEventListener('click', function() {
+        let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        document.body.style.color = randomColor;
+    });
+</script>
+
 </body>
 </html>
