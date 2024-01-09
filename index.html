@@ -28,6 +28,9 @@
         let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
         document.body.style.color = randomColor;
     });
+    colorButton.addEventListener('click', function() {
+        dataLayer.push({'clickButton':'colorButton_click'})
+    });
 </script>
 
 <script> dataLayer.push({'event_from_html':'eee'}) </script>
