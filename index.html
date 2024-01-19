@@ -31,12 +31,10 @@
     colorButton.addEventListener('click', function() {
         let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
         document.body.style.color = randomColor;
+        ym(95890673,'reachGoal','test', {'buttonColor':randomColor});
     });
     colorButton.addEventListener('click', function() {
         dataLayer.push({'clickButton':'colorButton_click'})
-    });
-    colorButton.addEventListener('click', function() {
-        ym(95890673,'reachGoal','test')
     });
 
     
