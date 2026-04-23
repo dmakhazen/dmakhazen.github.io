@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <style>
+        :root {
+            --bg: #f4efe8;
+            --surface: rgba(255, 252, 247, 0.82);
+            --surface-strong: #fffdf9;
+            --line: rgba(63, 41, 24, 0.12);
+            --text: #2e2017;
+            --muted: #6d5a4e;
+            --accent: #b64d2d;
+            --accent-2: #1f7a72;
+            --accent-3: #f0b548;
+            --success: #2f855a;
+            --danger: #b83240;
+            --shadow: 0 18px 50px rgba(88, 56, 28, 0.14);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+            --font-sans: "Trebuchet MS", "Segoe UI", sans-serif;
+            --font-display: Georgia, "Times New Roman", serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-sans);
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(240, 181, 72, 0.38), transparent 32%),
+                radial-gradient(circle at right 20%, rgba(31, 122, 114, 0.18), transparent 30%),
+                linear-gradient(180deg, #fbf7f1 0%, #efe5d8 100%);
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .dashboard {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 290px minmax(0, 1fr);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 28px 22px;
+            border-right: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(255, 252, 247, 0.92), rgba(244, 232, 216, 0.92));
+            backdrop-filter: blur(18px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .brand-mark {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--accent), #d47b59);
+            color: white;
+            font-family: var(--font-display);
+            font-size: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .brand-copy strong,
+        .hero-copy h1,
+        .section-header h2,
+        .modal-card h2,
+        .profile-card h2,
+        .widget h3,
+        .overview-card strong,
+        .data-card h3,
+        .hero-panel h2,
+        .timeline-card h3 {
+            font-family: var(--font-display);
+            letter-spacing: 0.02em;
+        }
+
+        .brand-copy strong {
+            display: block;
+            font-size: 24px;
+        }
+
+        .brand-copy span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .profile-card {
+            padding: 18px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(182, 77, 45, 0.15);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-2), #2ea69a);
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .sidebar-nav,
+        .quick-actions,
+        .mini-list,
+        .segmented,
+        .chip-list,
+        .tabs,
+        .timeline,
+        .status-list,
+        .tag-row,
+        .form-grid,
+        .toggle-group,
+        .button-row,
+        .file-zone,
+        .kpi-grid,
+        .widget-grid,
+        .overview-grid,
+        .table-actions,
+        .range-row,
+        .calendar-grid,
+        .color-row,
+        .footer-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .sidebar-nav {
+            flex-direction: column;
+            margin: 24px 0;
+        }
+
+        .nav-link,
+        .quick-button,
+        .chip,
+        .tab,
+        .ghost-button,
+        .secondary-button,
+        .primary-button,
+        .danger-button,
+        .icon-button,
+        .table-action,
+        .mini-tag,
+        .segmented button {
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+        }
+
+        .nav-link {
+            padding: 14px 16px;
+            border-radius: 16px;
+            text-decoration: none;
+            background: transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.is-active {
+            background: rgba(182, 77, 45, 0.1);
+            color: var(--accent);
+            transform: translateX(2px);
+        }
+
+        .side-note {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 18px;
+            background: linear-gradient(160deg, rgba(31, 122, 114, 0.12), rgba(240, 181, 72, 0.14));
+        }
+
+        .main {
+            padding: 28px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .searchbar {
+            flex: 1;
+            min-width: 220px;
+            padding: 14px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.9fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .hero-copy,
+        .hero-panel,
+        .widget,
+        .section,
+        .data-card,
+        .timeline-card,
+        .modal-card,
+        .toast,
+        .overview-card {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(14px);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-copy {
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-copy::after {
+            content: "";
+            position: absolute;
+            right: -80px;
+            top: -60px;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(240, 181, 72, 0.45), transparent 70%);
+        }
+
+        .eyebrow,
+        .badge,
+        .status-pill,
+        .mini-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow {
+            margin-bottom: 10px;
+            background: rgba(31, 122, 114, 0.12);
+            color: var(--accent-2);
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
+        }
+
+        .hero-copy h1 {
+            margin-bottom: 10px;
+            font-size: clamp(34px, 4vw, 54px);
+            line-height: 1.04;
+        }
+
+        .hero-copy p {
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        .button-row,
+        .footer-actions {
+            margin-top: 18px;
+        }
+
+        .primary-button,
+        .secondary-button,
+        .ghost-button,
+        .danger-button,
+        .table-action,
+        .icon-button,
+        .quick-button,
+        .segmented button {
+            padding: 12px 16px;
+            border-radius: 14px;
+        }
+
+        .primary-button {
+            color: white;
+            background: linear-gradient(135deg, var(--accent), #d4744a);
+            box-shadow: 0 14px 28px rgba(182, 77, 45, 0.2);
+        }
+
+        .secondary-button {
+            background: linear-gradient(135deg, rgba(31, 122, 114, 0.12), rgba(31, 122, 114, 0.18));
+            color: var(--accent-2);
+        }
+
+        .ghost-button,
+        .table-action,
+        .quick-button,
+        .segmented button {
+            background: rgba(255, 255, 255, 0.68);
+            color: var(--text);
+            border: 1px solid var(--line);
+        }
+
+        .danger-button {
+            color: white;
+            background: linear-gradient(135deg, #b83240, #d64554);
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover,
+        .ghost-button:hover,
+        .danger-button:hover,
+        .table-action:hover,
+        .quick-button:hover,
+        .icon-button:hover,
+        .segmented button:hover,
+        .chip:hover,
+        .tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .kpi-grid {
+            margin-top: 22px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .overview-card {
+            padding: 18px;
+            border-radius: 22px;
+        }
+
+        .overview-card strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 26px;
+        }
+
+        .overview-card:nth-child(1) {
+            background: linear-gradient(160deg, rgba(255, 244, 229, 0.9), rgba(255, 255, 255, 0.75));
+        }
+
+        .overview-card:nth-child(2) {
+            background: linear-gradient(160deg, rgba(224, 248, 245, 0.92), rgba(255, 255, 255, 0.75));
+        }
+
+        .overview-card:nth-child(3) {
+            background: linear-gradient(160deg, rgba(255, 240, 224, 0.92), rgba(255, 255, 255, 0.75));
+        }
+
+        .overview-card:nth-child(4) {
+            background: linear-gradient(160deg, rgba(239, 234, 255, 0.92), rgba(255, 255, 255, 0.75));
+        }
+
+        .hero-panel {
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .ring {
+            width: 140px;
+            aspect-ratio: 1;
+            margin: 0 auto;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: conic-gradient(var(--accent) 0 68%, rgba(182, 77, 45, 0.14) 68% 100%);
+        }
+
+        .ring-inner {
+            width: 102px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--surface-strong);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .widget,
+        .section,
+        .data-card,
+        .timeline-card {
+            padding: 22px;
+            border-radius: var(--radius-lg);
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .tag-row {
+            margin-bottom: 16px;
+        }
+
+        .badge,
+        .status-pill,
+        .mini-tag,
+        .chip {
+            border: 1px solid transparent;
+        }
+
+        .badge {
+            background: rgba(31, 122, 114, 0.1);
+            color: var(--accent-2);
+        }
+
+        .status-pill {
+            background: rgba(47, 133, 90, 0.12);
+            color: var(--success);
+        }
+
+        .status-pill.warning {
+            background: rgba(240, 181, 72, 0.2);
+            color: #8b5b00;
+        }
+
+        .status-pill.error {
+            background: rgba(184, 50, 64, 0.12);
+            color: var(--danger);
+        }
+
+        .mini-tag,
+        .chip {
+            background: rgba(255, 255, 255, 0.72);
+            border-color: var(--line);
+            padding: 8px 12px;
+            border-radius: 999px;
+        }
+
+        .chip.is-selected,
+        .tab.is-active,
+        .segmented button.is-active {
+            color: white;
+            background: linear-gradient(135deg, var(--accent), #d4744a);
+            box-shadow: 0 12px 24px rgba(182, 77, 45, 0.22);
+        }
+
+        .tab {
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid var(--line);
+        }
+
+        .data-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .field,
+        .field-inline,
+        .switch,
+        .radio-card,
+        .check-card,
+        .calendar-cell,
+        .list-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field label,
+        .field-inline label,
+        .toggle-title,
+        .widget h3,
+        .data-card h3,
+        .timeline-card h3 {
+            font-weight: 700;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(63, 41, 24, 0.16);
+            background: rgba(255, 255, 255, 0.88);
+            color: var(--text);
+            font: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid rgba(182, 77, 45, 0.24);
+            border-color: rgba(182, 77, 45, 0.46);
+        }
+
+        textarea {
+            min-height: 124px;
+            resize: vertical;
+        }
+
+        .field-wide {
+            grid-column: 1 / -1;
+        }
+
+        .toggle-group {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .switch,
+        .radio-card,
+        .check-card,
+        .calendar-cell,
+        .list-item,
+        .table-row {
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.58);
+            border: 1px solid rgba(63, 41, 24, 0.1);
+        }
+
+        .switch-row,
+        .radio-option,
+        .check-option,
+        .list-item,
+        .inline-stat,
+        .table-row,
+        .timeline-item,
+        .progress-row,
+        .activity-row,
+        .notification {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .switch input,
+        .radio-card input,
+        .check-card input,
+        .table-row input {
+            width: auto;
+        }
+
+        .data-card,
+        .timeline-card {
+            height: 100%;
+        }
+
+        .inline-stat {
+            padding: 14px 0;
+            border-bottom: 1px dashed rgba(63, 41, 24, 0.14);
+        }
+
+        .inline-stat:last-child {
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .range-output,
+        .color-output {
+            min-width: 88px;
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(63, 41, 24, 0.08);
+        }
+
+        .progress-track span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent), var(--accent-3));
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .calendar-cell strong {
+            font-size: 20px;
+        }
+
+        .calendar-cell.is-accent {
+            background: linear-gradient(160deg, rgba(182, 77, 45, 0.9), rgba(212, 116, 74, 0.92));
+            color: white;
+        }
+
+        .list-stack,
+        .status-stack,
+        .table,
+        .activity-feed {
+            display: grid;
+            gap: 12px;
+        }
+
+        .metric {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .table {
+            margin-top: 12px;
+        }
+
+        .table-head,
+        .table-row {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr 0.9fr 0.8fr 0.9fr;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .table-head {
+            padding: 0 14px;
+            color: var(--muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .timeline {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .timeline-item {
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px dashed rgba(63, 41, 24, 0.14);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            flex: 0 0 12px;
+            width: 12px;
+            height: 12px;
+            margin-top: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 6px rgba(182, 77, 45, 0.12);
+        }
+
+        .file-zone {
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border: 1px dashed rgba(63, 41, 24, 0.2);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .segmented {
+            align-items: center;
+        }
+
+        .segmented button {
+            min-width: 102px;
+        }
+
+        .pill-link {
+            display: inline-flex;
+            padding: 10px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--line);
+        }
+
+        .timeline-meta,
+        .small {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .panel-hidden {
+            display: none;
+        }
+
+        .services-categories__categories-block {
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: var(--shadow);
+        }
+
+        .mfui-9-header {
+            margin: 0;
+            font-family: var(--font-display);
+        }
+
+        .mfui-9-header_level_h3 {
+            font-size: clamp(28px, 2.6vw, 36px);
+        }
+
+        .mfui-9-header_color_default {
+            color: var(--text);
+        }
+
+        .mfui-9-header_h-align_inherit {
+            text-align: inherit;
+        }
+
+        .services-categories__categories-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .services-categories__categories-header-icon {
+            width: 32px;
+            height: 32px;
+            flex: 0 0 32px;
+        }
+
+        .services-categories-catalog__grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .services-categories-catalog__item {
+            min-height: 170px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .router-link_color_blue {
+            color: inherit;
+        }
+
+        .services-categories-catalog__item-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 170px;
+            height: 100%;
+            padding: 18px;
+            border-radius: 24px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .services-categories-catalog__item-container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(17, 24, 39, 0.05) 0%, rgba(17, 24, 39, 0.58) 100%);
+        }
+
+        .services-categories-catalog__item:hover .services-categories-catalog__item-container,
+        .services-categories-catalog__item:focus-visible .services-categories-catalog__item-container {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 30px rgba(46, 32, 23, 0.18);
+        }
+
+        .services-categories-catalog__item-header,
+        .services-categories-catalog__item-description,
+        .services-categories-catalog__item-count {
+            position: relative;
+            z-index: 1;
+        }
+
+        .services-categories-catalog__item-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .services-categories-catalog__item-header-text {
+            color: white;
+            font-size: 24px;
+            line-height: 1.05;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+        }
+
+        .services-categories-catalog__item-description {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.4;
+        }
+
+        .services-categories-catalog__item-count {
+            align-self: flex-start;
+            min-width: 42px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+            font-weight: 700;
+            backdrop-filter: blur(8px);
+        }
+
+        .services-categories-catalog__item_big-tile {
+            grid-column: span 2;
+        }
+
+        dialog {
+            border: 0;
+            padding: 0;
+            background: transparent;
+        }
+
+        dialog::backdrop {
+            background: rgba(46, 32, 23, 0.35);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-card {
+            width: min(560px, calc(100vw - 24px));
+            padding: 24px;
+            border-radius: 28px;
+        }
+
+        .toast-stack {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: grid;
+            gap: 12px;
+            z-index: 20;
+        }
+
+        .toast {
+            min-width: 260px;
+            padding: 16px 18px;
+            border-radius: 20px;
+        }
+
+        .toast strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        @media (max-width: 1180px) {
+            .dashboard,
+            .hero,
+            .data-layout,
+            .widget-grid,
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                height: auto;
+            }
+
+            .toggle-group,
+            .table-head,
+            .table-row,
+            .calendar-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .services-categories-catalog__grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .dashboard {
+                display: block;
+            }
+
+            .main {
+                padding: 18px;
+            }
+
+            .topbar,
+            .section-header,
+            .switch-row,
+            .list-item,
+            .inline-stat,
+            .table-row,
+            .table-head,
+            .activity-row,
+            .notification,
+            .timeline-item,
+            .file-zone {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-grid,
+            .toggle-group,
+            .calendar-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-categories-catalog__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-categories-catalog__item_big-tile {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">VK</div>
+                <div class="brand-copy">
+                    <strong>Variocube ID</strong>
+                    <span>Тестовый кабинет с разными UI-элементами</span>
+                </div>
+            </div>
+
+            <section class="profile-card">
+                <div class="avatar-row">
+                    <div class="avatar">DM</div>
+                    <div>
+                        <h2>Дмитрий М.</h2>
+                        <p class="muted">admin@variocube.test</p>
+                    </div>
+                </div>
+                <div class="tag-row">
+                    <span class="badge">Premium</span>
+                    <span class="status-pill">Сессия активна</span>
+                </div>
+            </section>
+
+            <nav class="sidebar-nav" aria-label="Навигация по кабинету">
+                <a class="nav-link is-active" href="#overview">Обзор</a>
+                <a class="nav-link" href="#profile">Профиль</a>
+                <a class="nav-link" href="#billing">Подписка</a>
+                <a class="nav-link" href="#activity">Активность</a>
+                <a class="nav-link" href="#support">Поддержка</a>
+            </nav>
+
+            <div class="quick-actions">
+                <button class="quick-button" type="button">Экспорт CSV</button>
+                <button class="quick-button" type="button">Запросить API-ключ</button>
+                <button class="quick-button" type="button">Открыть виджет</button>
+            </div>
+
+            <div class="side-note">
+                <strong>Сценарии для тестов</strong>
+                <p class="muted">На странице есть формы, табы, модалка, таблица, прогресс, чекбоксы, радиокнопки, тосты, ссылки, списки и интерактивные кнопки.</p>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <input class="searchbar" type="search" placeholder="Поиск по заказам, тарифам, событиям" aria-label="Поиск по кабинету">
+                <div class="button-row">
+                    <button class="ghost-button" type="button" id="notifyButton">Показать тост</button>
+                    <button class="secondary-button" type="button" id="openModalButton">Открыть модалку</button>
+                    <a class="pill-link" href="index.html">На главную</a>
+                </div>
+            </header>
+
+            <section class="hero" id="overview">
+                <div class="hero-copy">
+                    <span class="eyebrow">Тестовый личный кабинет</span>
+                    <h1>Одна страница с большим набором элементов для Variocube.</h1>
+                    <p>Здесь собраны типовые компоненты кабинета: карточки метрик, фильтры, профильная форма, переключатели, таблица заявок, календарные ячейки, таймлайн, модальные окна и уведомления. Страница подходит для кликов, скролла, записи сессий и проверки аналитики.</p>
+                    <div class="button-row">
+                        <button class="primary-button" type="button">Сохранить изменения</button>
+                        <button class="ghost-button" type="button">Предпросмотр</button>
+                        <button class="danger-button" type="button">Сбросить токены</button>
+                    </div>
+
+                    <div class="overview-grid kpi-grid">
+                        <article class="overview-card">
+                            <span class="small">Конверсия</span>
+                            <strong>68%</strong>
+                            <span class="muted">+12% за неделю</span>
+                        </article>
+                        <article class="overview-card">
+                            <span class="small">Новые лиды</span>
+                            <strong>147</strong>
+                            <span class="muted">31 необработан</span>
+                        </article>
+                        <article class="overview-card">
+                            <span class="small">Подписка</span>
+                            <strong>Pro+</strong>
+                            <span class="muted">До 14.08.2026</span>
+                        </article>
+                        <article class="overview-card">
+                            <span class="small">Баланс</span>
+                            <strong>42 800 ₽</strong>
+                            <span class="muted">Автосписание включено</span>
+                        </article>
+                    </div>
+                </div>
+
+                <aside class="hero-panel">
+                    <h2>Готовность профиля</h2>
+                    <div class="ring" aria-hidden="true">
+                        <div class="ring-inner">68%</div>
+                    </div>
+                    <div class="status-stack">
+                        <div class="inline-stat">
+                            <span>Фото и контакты</span>
+                            <span class="status-pill">Готово</span>
+                        </div>
+                        <div class="inline-stat">
+                            <span>Права доступа</span>
+                            <span class="status-pill warning">Проверить</span>
+                        </div>
+                        <div class="inline-stat">
+                            <span>Платежные реквизиты</span>
+                            <span class="status-pill error">Нужно действие</span>
+                        </div>
+                    </div>
+                    <meter min="0" max="100" value="68">68%</meter>
+                </aside>
+            </section>
+
+            <section class="widget-grid">
+                <article class="widget">
+                    <div class="section-header">
+                        <h3>Быстрые фильтры</h3>
+                        <div class="segmented" id="segmentControl">
+                            <button class="is-active" type="button">День</button>
+                            <button type="button">Неделя</button>
+                            <button type="button">Месяц</button>
+                        </div>
+                    </div>
+                    <div class="chip-list">
+                        <button class="chip is-selected" type="button">Все каналы</button>
+                        <button class="chip" type="button">SEO</button>
+                        <button class="chip" type="button">Ads</button>
+                        <button class="chip" type="button">Email</button>
+                        <button class="chip" type="button">Partner</button>
+                    </div>
+                    <div class="activity-feed">
+                        <div class="inline-stat">
+                            <span>Новые регистрации</span>
+                            <strong>84</strong>
+                        </div>
+                        <div class="inline-stat">
+                            <span>Апгрейды тарифа</span>
+                            <strong>19</strong>
+                        </div>
+                        <div class="inline-stat">
+                            <span>Отказы оплаты</span>
+                            <strong>4</strong>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="widget">
+                    <div class="section-header">
+                        <h3>Уведомления</h3>
+                        <span class="mini-tag">3 новых</span>
+                    </div>
+                    <div class="status-stack">
+                        <div class="notification">
+                            <div>
+                                <strong>Смена пароля</strong>
+                                <div class="small">Запрос из браузера Chrome, Москва</div>
+                            </div>
+                            <button class="icon-button" type="button">...</button>
+                        </div>
+                        <div class="notification">
+                            <div>
+                                <strong>Оплата подтверждена</strong>
+                                <div class="small">Счет #2841 на 6 900 ₽</div>
+                            </div>
+                            <button class="icon-button" type="button">...</button>
+                        </div>
+                        <div class="notification">
+                            <div>
+                                <strong>Доступ API обновлен</strong>
+                                <div class="small">Выдан новый ключ sandbox</div>
+                            </div>
+                            <button class="icon-button" type="button">...</button>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="section" id="profile">
+                <div class="section-header">
+                    <div>
+                        <h2>Профиль и настройки</h2>
+                        <p class="muted">Форма намеренно заполнена разными типами полей и состояний.</p>
+                    </div>
+                    <div class="tabs" id="tabs">
+                        <button class="tab is-active" type="button" data-panel="panel-profile">Основное</button>
+                        <button class="tab" type="button" data-panel="panel-preferences">Предпочтения</button>
+                        <button class="tab" type="button" data-panel="panel-security">Безопасность</button>
+                    </div>
+                </div>
+
+                <div id="panel-profile" class="tab-panel">
+                    <div class="data-layout">
+                        <div class="data-card">
+                            <h3>Основные данные</h3>
+                            <form class="form-grid">
+                                <div class="field">
+                                    <label for="fullName">ФИО</label>
+                                    <input id="fullName" type="text" value="Дмитрий Махазен">
+                                </div>
+                                <div class="field">
+                                    <label for="nickname">Никнейм</label>
+                                    <input id="nickname" type="text" value="variocube-admin">
+                                </div>
+                                <div class="field">
+                                    <label for="email">Email</label>
+                                    <input id="email" type="email" value="admin@variocube.test">
+                                </div>
+                                <div class="field">
+                                    <label for="phone">Телефон</label>
+                                    <input id="phone" type="tel" value="+7 999 555-44-33">
+                                </div>
+                                <div class="field">
+                                    <label for="company">Компания</label>
+                                    <input id="company" type="text" value="Variocube QA Lab">
+                                </div>
+                                <div class="field">
+                                    <label for="position">Роль</label>
+                                    <select id="position">
+                                        <option>Owner</option>
+                                        <option selected>Administrator</option>
+                                        <option>Analyst</option>
+                                        <option>Support</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label for="birthDate">Дата рождения</label>
+                                    <input id="birthDate" type="date" value="1994-07-18">
+                                </div>
+                                <div class="field">
+                                    <label for="meetingTime">Время созвона</label>
+                                    <input id="meetingTime" type="time" value="14:30">
+                                </div>
+                                <div class="field">
+                                    <label for="website">Сайт</label>
+                                    <input id="website" type="url" value="https://variocube.test">
+                                </div>
+                                <div class="field">
+                                    <label for="budget">Лимит бюджета</label>
+                                    <input id="budget" type="number" min="0" step="100" value="12000">
+                                </div>
+                                <div class="field field-wide">
+                                    <label for="about">О себе</label>
+                                    <textarea id="about">Ищу насыщенную тестовую страницу личного кабинета с разными интерактивными элементами и визуальными состояниями.</textarea>
+                                </div>
+                                <div class="field field-wide">
+                                    <label for="skillsInput">Навыки</label>
+                                    <input id="skillsInput" list="skillsList" placeholder="Начните вводить навык" value="analytics">
+                                    <datalist id="skillsList">
+                                        <option value="analytics"></option>
+                                        <option value="qa"></option>
+                                        <option value="frontend"></option>
+                                        <option value="tracking"></option>
+                                        <option value="heatmaps"></option>
+                                    </datalist>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="timeline-card">
+                            <h3>Текущий статус</h3>
+                            <div class="status-stack">
+                                <div class="inline-stat">
+                                    <span>Workspace ID</span>
+                                    <strong>vcb-qa-2031</strong>
+                                </div>
+                                <div class="inline-stat">
+                                    <span>Последний вход</span>
+                                    <strong>23.04.2026 15:21</strong>
+                                </div>
+                                <div class="inline-stat">
+                                    <span>Двухфакторная защита</span>
+                                    <strong>Включена</strong>
+                                </div>
+                            </div>
+
+                            <div class="range-row">
+                                <label for="volumeRange">Чувствительность трекинга</label>
+                                <span class="range-output" id="rangeOutput">72%</span>
+                            </div>
+                            <input id="volumeRange" type="range" min="0" max="100" value="72">
+
+                            <div class="color-row">
+                                <label for="accentColor">Акцент интерфейса</label>
+                                <span class="color-output" id="colorOutput">#b64d2d</span>
+                            </div>
+                            <input id="accentColor" type="color" value="#b64d2d">
+
+                            <div class="file-zone">
+                                <div>
+                                    <strong>Загрузить документы</strong>
+                                    <div class="small">PNG, PDF, CSV до 20 МБ</div>
+                                </div>
+                                <input type="file" multiple>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="panel-preferences" class="tab-panel panel-hidden">
+                    <div class="data-layout">
+                        <div class="data-card">
+                            <h3>Предпочтения кабинета</h3>
+                            <div class="toggle-group">
+                                <label class="switch">
+                                    <span class="toggle-title">Email-уведомления</span>
+                                    <div class="switch-row">
+                                        <span class="small">Критические события и дайджесты</span>
+                                        <input type="checkbox" checked>
+                                    </div>
+                                </label>
+                                <label class="switch">
+                                    <span class="toggle-title">Push-уведомления</span>
+                                    <div class="switch-row">
+                                        <span class="small">Мгновенные сигналы по API</span>
+                                        <input type="checkbox" checked>
+                                    </div>
+                                </label>
+                                <label class="switch">
+                                    <span class="toggle-title">Beta-функции</span>
+                                    <div class="switch-row">
+                                        <span class="small">Экспериментальные модули</span>
+                                        <input type="checkbox">
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="form-grid" style="margin-top: 16px;">
+                                <label class="radio-card">
+                                    <span>Плотность интерфейса</span>
+                                    <div class="radio-option">
+                                        <span>Комфортная</span>
+                                        <input type="radio" name="density" checked>
+                                    </div>
+                                </label>
+                                <label class="radio-card">
+                                    <span>Плотность интерфейса</span>
+                                    <div class="radio-option">
+                                        <span>Компактная</span>
+                                        <input type="radio" name="density">
+                                    </div>
+                                </label>
+                                <label class="check-card">
+                                    <span>Показывать горячие подсказки</span>
+                                    <div class="check-option">
+                                        <span>Включить обучающие бейджи</span>
+                                        <input type="checkbox" checked>
+                                    </div>
+                                </label>
+                                <label class="check-card">
+                                    <span>Скрывать завершенные таски</span>
+                                    <div class="check-option">
+                                        <span>Оставлять только активные</span>
+                                        <input type="checkbox">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="timeline-card">
+                            <h3>Мини-календарь</h3>
+                            <div class="calendar-grid">
+                                <div class="calendar-cell"><span class="small">Пн</span><strong>21</strong><span class="small">Встреча</span></div>
+                                <div class="calendar-cell"><span class="small">Вт</span><strong>22</strong><span class="small">Релиз</span></div>
+                                <div class="calendar-cell is-accent"><span class="small">Ср</span><strong>23</strong><span class="small">Демо</span></div>
+                                <div class="calendar-cell"><span class="small">Чт</span><strong>24</strong><span class="small">Аудит</span></div>
+                                <div class="calendar-cell"><span class="small">Пт</span><strong>25</strong><span class="small">Оплата</span></div>
+                                <div class="calendar-cell"><span class="small">Сб</span><strong>26</strong><span class="small">Пауза</span></div>
+                                <div class="calendar-cell"><span class="small">Вс</span><strong>27</strong><span class="small">Итоги</span></div>
+                            </div>
+                            <div class="footer-actions">
+                                <button class="ghost-button" type="button">Создать событие</button>
+                                <button class="secondary-button" type="button">Экспорт ICS</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="panel-security" class="tab-panel panel-hidden">
+                    <div class="data-layout">
+                        <div class="data-card">
+                            <h3>Безопасность</h3>
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label for="currentPassword">Текущий пароль</label>
+                                    <input id="currentPassword" type="password" value="password123">
+                                </div>
+                                <div class="field">
+                                    <label for="newPassword">Новый пароль</label>
+                                    <input id="newPassword" type="password" placeholder="Введите новый пароль">
+                                </div>
+                                <div class="field">
+                                    <label for="otpCode">Код подтверждения</label>
+                                    <input id="otpCode" type="text" inputmode="numeric" placeholder="123456">
+                                </div>
+                                <div class="field">
+                                    <label for="backupEmail">Резервный email</label>
+                                    <input id="backupEmail" type="email" value="alerts@variocube.test">
+                                </div>
+                            </div>
+                            <details style="margin-top: 18px;">
+                                <summary>Показать историю устройств</summary>
+                                <ul>
+                                    <li>Chrome 135, Windows, Москва</li>
+                                    <li>Safari, iPhone, Санкт-Петербург</li>
+                                    <li>Firefox, Ubuntu, Казань</li>
+                                </ul>
+                            </details>
+                        </div>
+
+                        <div class="timeline-card">
+                            <h3>Доверенные сессии</h3>
+                            <div class="status-stack">
+                                <div class="list-item">
+                                    <div>
+                                        <strong>Main Workstation</strong>
+                                        <div class="small">Текущая сессия</div>
+                                    </div>
+                                    <span class="status-pill">Active</span>
+                                </div>
+                                <div class="list-item">
+                                    <div>
+                                        <strong>QA iPhone</strong>
+                                        <div class="small">Последний вход 2 часа назад</div>
+                                    </div>
+                                    <span class="status-pill warning">Idle</span>
+                                </div>
+                                <div class="list-item">
+                                    <div>
+                                        <strong>Old Laptop</strong>
+                                        <div class="small">Неактивен 12 дней</div>
+                                    </div>
+                                    <span class="status-pill error">Revoke</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="billing">
+                <div class="section-header">
+                    <div>
+                        <h2>Подписка и платежи</h2>
+                        <p class="muted">Тут собраны таблица, статусы, действия и прогресс-бар.</p>
+                    </div>
+                    <div class="tag-row">
+                        <span class="badge">Pro+ Annual</span>
+                        <span class="mini-tag">Автопродление</span>
+                    </div>
+                </div>
+
+                <div class="data-layout">
+                    <article class="data-card">
+                        <h3>Сводка по лимитам</h3>
+                        <div class="status-stack">
+                            <div class="progress-row">
+                                <span>Сессии</span>
+                                <span>7 200 / 10 000</span>
+                            </div>
+                            <div class="progress-track"><span style="width: 72%;"></span></div>
+
+                            <div class="progress-row">
+                                <span>Тепловые карты</span>
+                                <span>16 / 20</span>
+                            </div>
+                            <div class="progress-track"><span style="width: 80%; background: linear-gradient(90deg, var(--accent-2), #3fb5a9);"></span></div>
+
+                            <div class="progress-row">
+                                <span>API-запросы</span>
+                                <span>42 000 / 50 000</span>
+                            </div>
+                            <div class="progress-track"><span style="width: 84%; background: linear-gradient(90deg, #7b61ff, #b197fc);"></span></div>
+                        </div>
+                    </article>
+
+                    <article class="timeline-card">
+                        <h3>Способ оплаты</h3>
+                        <div class="status-stack">
+                            <div class="inline-stat">
+                                <span>Карта</span>
+                                <strong>•••• 4082</strong>
+                            </div>
+                            <div class="inline-stat">
+                                <span>Следующее списание</span>
+                                <strong>14.08.2026</strong>
+                            </div>
+                            <div class="inline-stat">
+                                <span>Статус счета</span>
+                                <strong>Без просрочки</strong>
+                            </div>
+                        </div>
+                        <div class="footer-actions">
+                            <button class="secondary-button" type="button">Обновить карту</button>
+                            <button class="ghost-button" type="button">Скачать акт</button>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="table">
+                    <div class="table-head">
+                        <span>Документ</span>
+                        <span>Дата</span>
+                        <span>Сумма</span>
+                        <span>Статус</span>
+                        <span>Действия</span>
+                    </div>
+                    <div class="table-row">
+                        <span>INV-2841</span>
+                        <span>12.04.2026</span>
+                        <span>6 900 ₽</span>
+                        <span class="status-pill">Оплачен</span>
+                        <div class="table-actions">
+                            <button class="table-action" type="button">PDF</button>
+                            <button class="table-action" type="button">Email</button>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <span>INV-2817</span>
+                        <span>12.03.2026</span>
+                        <span>6 900 ₽</span>
+                        <span class="status-pill">Оплачен</span>
+                        <div class="table-actions">
+                            <button class="table-action" type="button">PDF</button>
+                            <button class="table-action" type="button">Email</button>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <span>INV-2789</span>
+                        <span>14.02.2026</span>
+                        <span>6 900 ₽</span>
+                        <span class="status-pill warning">Обработка</span>
+                        <div class="table-actions">
+                            <button class="table-action" type="button">PDF</button>
+                            <button class="table-action" type="button">Email</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="activity">
+                <div class="section-header">
+                    <div>
+                        <h2>Активность и история</h2>
+                        <p class="muted">Ниже список событий, таймлайн и элементы для скролла по странице.</p>
+                    </div>
+                    <button class="ghost-button" type="button">Скачать лог</button>
+                </div>
+
+                <div class="data-layout">
+                    <article class="timeline-card">
+                        <h3>Таймлайн</h3>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <span class="timeline-dot"></span>
+                                <div>
+                                    <strong>Создан проект Heatmaps Sandbox</strong>
+                                    <div class="timeline-meta">Сегодня, 09:12</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <span class="timeline-dot"></span>
+                                <div>
+                                    <strong>Добавлен новый пользователь analyst@variocube.test</strong>
+                                    <div class="timeline-meta">Вчера, 18:44</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <span class="timeline-dot"></span>
+                                <div>
+                                    <strong>Изменен API rate limit</strong>
+                                    <div class="timeline-meta">22.04.2026, 13:05</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <span class="timeline-dot"></span>
+                                <div>
+                                    <strong>Скачан архив с записями сессий</strong>
+                                    <div class="timeline-meta">20.04.2026, 21:37</div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="data-card">
+                        <h3>Список задач</h3>
+                        <div class="list-stack">
+                            <label class="list-item">
+                                <span>Проверить события click и scroll depth</span>
+                                <input type="checkbox" checked>
+                            </label>
+                            <label class="list-item">
+                                <span>Протестировать форму оплаты</span>
+                                <input type="checkbox">
+                            </label>
+                            <label class="list-item">
+                                <span>Сравнить запись сессии на mobile</span>
+                                <input type="checkbox">
+                            </label>
+                            <label class="list-item">
+                                <span>Сверить работу тостов и модалки</span>
+                                <input type="checkbox" checked>
+                            </label>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" id="support">
+                <div class="services-categories__categories-block" id="catalog">
+                    <h3 class="mfui-9-header mfui-9-header_color_default mfui-9-header_level_h3 mfui-9-header_h-align_inherit services-categories__categories-header"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 32 32" class="services-categories__categories-header-icon"><path fill="url(#shopping-cart_svg__a)" d="M25.53 7H7.115L5.54 4.18a1 1 0 0 0-.873-.513h-2a1 1 0 0 0 0 2H4.08l1.553 2.784 3.581 7.924.004.008.315.698-3.596 3.835a1 1 0 0 0 .616 1.678l3.278.374c4.1.469 8.24.469 12.339 0l3.277-.374a1 1 0 0 0-.227-1.987l-3.277.374a52.3 52.3 0 0 1-11.885 0l-1.3-.148 2.639-2.815q.038-.042.07-.085l1.004.13c1.407.184 2.829.22 4.243.108a12.39 12.39 0 0 0 8.488-4.359l.771-.913a1 1 0 0 0 .072-.096l1.436-2.19C28.5 9.064 27.388 7 25.532 7"></path><path fill="url(#shopping-cart_svg__b)" d="M8.667 24.667a2 2 0 1 0 0 4 2 2 0 0 0 0-4"></path><path fill="url(#shopping-cart_svg__c)" d="M21.334 26.667a2 2 0 1 1 4 0 2 2 0 0 1-4 0"></path><defs><linearGradient id="shopping-cart_svg__a" x1="26.895" x2="12.742" y1="5.259" y2="8.873" gradientUnits="userSpaceOnUse"><stop stop-color="#1EFA64"></stop><stop offset="1" stop-color="#00B956"></stop></linearGradient><linearGradient id="shopping-cart_svg__b" x1="26.895" x2="12.742" y1="5.259" y2="8.873" gradientUnits="userSpaceOnUse"><stop stop-color="#1EFA64"></stop><stop offset="1" stop-color="#00B956"></stop></linearGradient><linearGradient id="shopping-cart_svg__c" x1="26.895" x2="12.742" y1="5.259" y2="8.873" gradientUnits="userSpaceOnUse"><stop stop-color="#1EFA64"></stop><stop offset="1" stop-color="#00B956"></stop></linearGradient></defs></svg>Каталог сценариев</h3>
+                    <div class="services-categories-catalog" data-testid="ServicesCategoriesCatalog-root">
+                        <div class="services-categories-catalog__grid">
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Профиль" href="#profile"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #1f7a72, #48b8ae);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Профиль</span></div><span class="services-categories-catalog__item-description">Контакты, поля и персональные настройки</span><div class="services-categories-catalog__item-count">11</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Платежи" href="#billing"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #b64d2d, #f08f5a);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Платежи</span></div><span class="services-categories-catalog__item-description">Счета, лимиты и автосписание</span><div class="services-categories-catalog__item-count">6</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="События" href="#activity"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #6f4ef2, #9f88ff);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">События</span></div><span class="services-categories-catalog__item-description">Таймлайн, задачи и журнал действий</span><div class="services-categories-catalog__item-count">14</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Поддержка" href="#support"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #355c7d, #6c5b7b);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Поддержка</span></div><span class="services-categories-catalog__item-description">Обращения, SLA и каналы связи</span><div class="services-categories-catalog__item-count">4</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Дашборд" href="#overview"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #0f766e, #14b8a6);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Дашборд</span></div><div class="services-categories-catalog__item-count">8</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Фильтры" href="#overview"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #e76f51, #f4a261);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Фильтры</span></div><div class="services-categories-catalog__item-count">5</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Безопасность" href="#profile"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #264653, #2a9d8f);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Безопасность</span></div><div class="services-categories-catalog__item-count">7</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Интеграции" href="#support"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #7c3aed, #c084fc);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Интеграции</span></div><span class="services-categories-catalog__item-description">API, webhooks и sandbox-ключи</span><div class="services-categories-catalog__item-count">9</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item services-categories-catalog__item_big-tile ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Автотесты" href="#activity"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #111827, #4b5563);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Автотесты</span></div><span class="services-categories-catalog__item-description">Большая плитка для сценариев навигации, видимости, hover-эффектов и трекинга кликов по крупным блокам интерфейса</span><div class="services-categories-catalog__item-count">12</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Документы" href="#billing"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #4c1d95, #8b5cf6);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Документы</span></div><span class="services-categories-catalog__item-description">PDF, акты и выгрузки</span><div class="services-categories-catalog__item-count">3</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Уведомления" href="#overview"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #065f46, #10b981);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Уведомления</span></div><div class="services-categories-catalog__item-count">3</div></div></a>
+                            <a class="router-link router-link_color_blue services-categories-catalog__item ym-services-category-tile" data-testid="ServicesCategoriesCatalog-routerLink" data-ym-block-name="Каталог" data-ym-category-name="Экспорт" href="#billing"><div class="services-categories-catalog__item-container" style="background-image: linear-gradient(135deg, #7f1d1d, #ef4444);"><div class="services-categories-catalog__item-header"><span class="services-categories-catalog__item-header-text" color="white">Экспорт</span></div><span class="services-categories-catalog__item-description">CSV, логи и архивы</span><div class="services-categories-catalog__item-count">2</div></div></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <div>
+                        <h2>Поддержка</h2>
+                        <p class="muted">Форма обращения, textarea и селекты для сценариев тестирования.</p>
+                    </div>
+                    <span class="mini-tag">SLA 2 часа</span>
+                </div>
+
+                <div class="data-layout">
+                    <article class="data-card">
+                        <h3>Новое обращение</h3>
+                        <form class="form-grid">
+                            <div class="field">
+                                <label for="topic">Тема</label>
+                                <select id="topic">
+                                    <option>Интеграция</option>
+                                    <option selected>Аналитика</option>
+                                    <option>Оплата</option>
+                                    <option>Ошибки UI</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="priority">Приоритет</label>
+                                <select id="priority">
+                                    <option>Low</option>
+                                    <option selected>Medium</option>
+                                    <option>High</option>
+                                    <option>Urgent</option>
+                                </select>
+                            </div>
+                            <div class="field field-wide">
+                                <label for="message">Сообщение</label>
+                                <textarea id="message">После обновления тарифа хочу проверить, как Variocube пишет клики по кнопкам, взаимодействия с таблицей и переходы между табами на одной странице кабинета.</textarea>
+                            </div>
+                            <div class="field field-wide">
+                                <label for="responseWindow">Окно ответа</label>
+                                <input id="responseWindow" type="week" value="2026-W17">
+                            </div>
+                        </form>
+                        <div class="footer-actions">
+                            <button class="primary-button" type="button">Отправить запрос</button>
+                            <button class="ghost-button" type="reset">Очистить</button>
+                        </div>
+                    </article>
+
+                    <article class="timeline-card">
+                        <h3>Контакты команды</h3>
+                        <div class="status-stack">
+                            <div class="inline-stat">
+                                <span>Support Lead</span>
+                                <a href="mailto:lead@variocube.test">lead@variocube.test</a>
+                            </div>
+                            <div class="inline-stat">
+                                <span>Telegram</span>
+                                <a href="https://t.me/example_support">@example_support</a>
+                            </div>
+                            <div class="inline-stat">
+                                <span>Телефон</span>
+                                <a href="tel:+79991112233">+7 999 111-22-33</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <dialog id="settingsDialog">
+        <div class="modal-card">
+            <h2>Быстрое действие</h2>
+            <p>Эта модалка добавлена для тестов поведения оверлея, фокуса и закрытия по кнопке.</p>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="modalProject">Проект</label>
+                    <input id="modalProject" type="text" value="Heatmaps Sandbox">
+                </div>
+                <div class="field">
+                    <label for="modalOwner">Ответственный</label>
+                    <input id="modalOwner" type="text" value="DM Admin">
+                </div>
+            </div>
+            <div class="footer-actions">
+                <button class="primary-button" type="button" id="confirmModalButton">Подтвердить</button>
+                <button class="ghost-button" type="button" id="closeModalButton">Закрыть</button>
+            </div>
+        </div>
+    </dialog>
+
+    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+    <script>
+        const rangeInput = document.getElementById('volumeRange');
+        const rangeOutput = document.getElementById('rangeOutput');
+        const colorInput = document.getElementById('accentColor');
+        const colorOutput = document.getElementById('colorOutput');
+        const dialog = document.getElementById('settingsDialog');
+        const openModalButton = document.getElementById('openModalButton');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const confirmModalButton = document.getElementById('confirmModalButton');
+        const notifyButton = document.getElementById('notifyButton');
+        const tabs = document.querySelectorAll('.tab');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        const segmentButtons = document.querySelectorAll('#segmentControl button');
+        const chips = document.querySelectorAll('.chip');
+        const toastStack = document.getElementById('toastStack');
+
+        function syncRange() {
+            rangeOutput.textContent = rangeInput.value + '%';
+        }
+
+        function syncColor() {
+            const value = colorInput.value.toLowerCase();
+            colorOutput.textContent = value;
+            document.documentElement.style.setProperty('--accent', value);
+        }
+
+        function showToast(title, text) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = '<strong>' + title + '</strong><span>' + text + '</span>';
+            toastStack.appendChild(toast);
+
+            window.setTimeout(function() {
+                toast.remove();
+            }, 2800);
+        }
+
+        rangeInput.addEventListener('input', syncRange);
+        colorInput.addEventListener('input', syncColor);
+
+        openModalButton.addEventListener('click', function() {
+            dialog.showModal();
+        });
+
+        closeModalButton.addEventListener('click', function() {
+            dialog.close();
+        });
+
+        confirmModalButton.addEventListener('click', function() {
+            dialog.close();
+            showToast('Изменения применены', 'Модальное окно закрылось, сценарий завершен.');
+        });
+
+        notifyButton.addEventListener('click', function() {
+            showToast('Тестовый тост', 'Уведомление появилось в правом нижнем углу.');
+        });
+
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                tabs.forEach(function(item) {
+                    item.classList.remove('is-active');
+                });
+
+                tabPanels.forEach(function(panel) {
+                    panel.classList.add('panel-hidden');
+                });
+
+                tab.classList.add('is-active');
+                document.getElementById(tab.dataset.panel).classList.remove('panel-hidden');
+            });
+        });
+
+        segmentButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                segmentButtons.forEach(function(item) {
+                    item.classList.remove('is-active');
+                });
+                button.classList.add('is-active');
+            });
+        });
+
+        chips.forEach(function(chip) {
+            chip.addEventListener('click', function() {
+                chips.forEach(function(item) {
+                    item.classList.remove('is-selected');
+                });
+                chip.classList.add('is-selected');
+            });
+        });
+
+        syncRange();
+        syncColor();
+    </script>
+</body>
+</html>
