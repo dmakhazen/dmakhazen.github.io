@@ -4,6 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  ym(95890673, "init", {
+       clickmap:true,
+       trackLinks:true,
+       accurateTrackBounce:true,
+       webvisor:true,
+       ecommerce: true
+  });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/95890673" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108159031', 'ym');
+
+    ym(108159031, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/108159031" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
     <style>
         :root {
             --bg: #f4efe8;
@@ -86,7 +121,6 @@
         .brand-copy strong,
         .hero-copy h1,
         .section-header h2,
-        .modal-card h2,
         .profile-card h2,
         .widget h3,
         .overview-card strong,
@@ -752,10 +786,6 @@
             color: var(--muted);
         }
 
-        .panel-hidden {
-            display: none;
-        }
-
         .services-categories__categories-block {
             padding: 24px;
             border-radius: var(--radius-lg);
@@ -881,43 +911,6 @@
             grid-column: span 2;
         }
 
-        dialog {
-            border: 0;
-            padding: 0;
-            background: transparent;
-        }
-
-        dialog::backdrop {
-            background: rgba(46, 32, 23, 0.35);
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-card {
-            width: min(560px, calc(100vw - 24px));
-            padding: 24px;
-            border-radius: 28px;
-        }
-
-        .toast-stack {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            display: grid;
-            gap: 12px;
-            z-index: 20;
-        }
-
-        .toast {
-            min-width: 260px;
-            padding: 16px 18px;
-            border-radius: 20px;
-        }
-
-        .toast strong {
-            display: block;
-            margin-bottom: 4px;
-        }
-
         .sr-only {
             position: absolute;
             width: 1px;
@@ -1037,7 +1030,7 @@
 
             <div class="side-note">
                 <strong>Сценарии для тестов</strong>
-                <p class="muted">На странице есть формы, табы, модалка, таблица, прогресс, чекбоксы, радиокнопки, тосты, ссылки, списки и интерактивные кнопки.</p>
+                <p class="muted">На странице есть формы, табы, таблица, прогресс, чекбоксы, радиокнопки, ссылки, списки и большие каталожные плитки.</p>
             </div>
         </aside>
 
@@ -1045,8 +1038,8 @@
             <header class="topbar">
                 <input class="searchbar" type="search" placeholder="Поиск по заказам, тарифам, событиям" aria-label="Поиск по кабинету">
                 <div class="button-row">
-                    <button class="ghost-button" type="button" id="notifyButton">Показать тост</button>
-                    <button class="secondary-button" type="button" id="openModalButton">Открыть модалку</button>
+                    <button class="ghost-button" type="button">Скачать отчет</button>
+                    <button class="secondary-button" type="button">Создать сценарий</button>
                     <a class="pill-link" href="index.html">На главную</a>
                 </div>
             </header>
@@ -1055,7 +1048,7 @@
                 <div class="hero-copy">
                     <span class="eyebrow">Тестовый личный кабинет</span>
                     <h1>Одна страница с большим набором элементов для Variocube.</h1>
-                    <p>Здесь собраны типовые компоненты кабинета: карточки метрик, фильтры, профильная форма, переключатели, таблица заявок, календарные ячейки, таймлайн, модальные окна и уведомления. Страница подходит для кликов, скролла, записи сессий и проверки аналитики.</p>
+                    <p>Здесь собраны типовые компоненты кабинета: карточки метрик, фильтры, профильная форма, переключатели, таблица заявок, календарные ячейки, таймлайн, ссылки и статические блоки для проверки аналитики.</p>
                     <div class="button-row">
                         <button class="primary-button" type="button">Сохранить изменения</button>
                         <button class="ghost-button" type="button">Предпросмотр</button>
@@ -1294,7 +1287,7 @@
                     </div>
                 </div>
 
-                <div id="panel-preferences" class="tab-panel panel-hidden">
+                <div id="panel-preferences" class="tab-panel">
                     <div class="data-layout">
                         <div class="data-card">
                             <h3>Предпочтения кабинета</h3>
@@ -1373,7 +1366,7 @@
                     </div>
                 </div>
 
-                <div id="panel-security" class="tab-panel panel-hidden">
+                <div id="panel-security" class="tab-panel">
                     <div class="data-layout">
                         <div class="data-card">
                             <h3>Безопасность</h3>
@@ -1595,7 +1588,7 @@
                                 <input type="checkbox">
                             </label>
                             <label class="list-item">
-                                <span>Сверить работу тостов и модалки</span>
+                                <span>Сверить переходы и клики по статичным блокам</span>
                                 <input type="checkbox" checked>
                             </label>
                         </div>
@@ -1691,121 +1684,33 @@
         </main>
     </div>
 
-    <dialog id="settingsDialog">
-        <div class="modal-card">
-            <h2>Быстрое действие</h2>
-            <p>Эта модалка добавлена для тестов поведения оверлея, фокуса и закрытия по кнопке.</p>
-            <div class="form-grid">
-                <div class="field">
-                    <label for="modalProject">Проект</label>
-                    <input id="modalProject" type="text" value="Heatmaps Sandbox">
-                </div>
-                <div class="field">
-                    <label for="modalOwner">Ответственный</label>
-                    <input id="modalOwner" type="text" value="DM Admin">
-                </div>
-            </div>
-            <div class="footer-actions">
-                <button class="primary-button" type="button" id="confirmModalButton">Подтвердить</button>
-                <button class="ghost-button" type="button" id="closeModalButton">Закрыть</button>
-            </div>
-        </div>
-    </dialog>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
-
-    <script>
-        const rangeInput = document.getElementById('volumeRange');
-        const rangeOutput = document.getElementById('rangeOutput');
-        const colorInput = document.getElementById('accentColor');
-        const colorOutput = document.getElementById('colorOutput');
-        const dialog = document.getElementById('settingsDialog');
-        const openModalButton = document.getElementById('openModalButton');
-        const closeModalButton = document.getElementById('closeModalButton');
-        const confirmModalButton = document.getElementById('confirmModalButton');
-        const notifyButton = document.getElementById('notifyButton');
-        const tabs = document.querySelectorAll('.tab');
-        const tabPanels = document.querySelectorAll('.tab-panel');
-        const segmentButtons = document.querySelectorAll('#segmentControl button');
-        const chips = document.querySelectorAll('.chip');
-        const toastStack = document.getElementById('toastStack');
-
-        function syncRange() {
-            rangeOutput.textContent = rangeInput.value + '%';
-        }
-
-        function syncColor() {
-            const value = colorInput.value.toLowerCase();
-            colorOutput.textContent = value;
-            document.documentElement.style.setProperty('--accent', value);
-        }
-
-        function showToast(title, text) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = '<strong>' + title + '</strong><span>' + text + '</span>';
-            toastStack.appendChild(toast);
-
-            window.setTimeout(function() {
-                toast.remove();
-            }, 2800);
-        }
-
-        rangeInput.addEventListener('input', syncRange);
-        colorInput.addEventListener('input', syncColor);
-
-        openModalButton.addEventListener('click', function() {
-            dialog.showModal();
+        ym(95890673, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true,
+            ecommerce:true
         });
 
-        closeModalButton.addEventListener('click', function() {
-            dialog.close();
+        ym(108159031, "init", {
+            ssr:true,
+            webvisor:true,
+            clickmap:true,
+            accurateTrackBounce:true,
+            trackLinks:true
         });
-
-        confirmModalButton.addEventListener('click', function() {
-            dialog.close();
-            showToast('Изменения применены', 'Модальное окно закрылось, сценарий завершен.');
-        });
-
-        notifyButton.addEventListener('click', function() {
-            showToast('Тестовый тост', 'Уведомление появилось в правом нижнем углу.');
-        });
-
-        tabs.forEach(function(tab) {
-            tab.addEventListener('click', function() {
-                tabs.forEach(function(item) {
-                    item.classList.remove('is-active');
-                });
-
-                tabPanels.forEach(function(panel) {
-                    panel.classList.add('panel-hidden');
-                });
-
-                tab.classList.add('is-active');
-                document.getElementById(tab.dataset.panel).classList.remove('panel-hidden');
-            });
-        });
-
-        segmentButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                segmentButtons.forEach(function(item) {
-                    item.classList.remove('is-active');
-                });
-                button.classList.add('is-active');
-            });
-        });
-
-        chips.forEach(function(chip) {
-            chip.addEventListener('click', function() {
-                chips.forEach(function(item) {
-                    item.classList.remove('is-selected');
-                });
-                chip.classList.add('is-selected');
-            });
-        });
-
-        syncRange();
-        syncColor();
     </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/95890673" style="position:absolute; left:-9999px;" alt=""></div>
+        <div><img src="https://mc.yandex.ru/watch/108159031" style="position:absolute; left:-9999px;" alt=""></div>
+    </noscript>
 </body>
 </html>
