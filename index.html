@@ -46,9 +46,12 @@
         display: inline-block;
         padding: 10px 18px;
         color: white;
+        border: none;
         text-decoration: none;
         border-radius: 999px;
+        font: inherit;
         font-weight: 600;
+        cursor: pointer;
         transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
       }
 
@@ -210,17 +213,30 @@
   </div>
 </section>
 
-<button id="colorButton">Change Color</button>
+<button id="colorButton" type="button">Change Color</button>
+<button id="dlPushButton" class="external-link-button external-link-button--simple" type="button">вызвать DL пуш</button>
 
 <!-- Цветная кнопка -->
 <script>
     let colorButton = document.getElementById('colorButton');
+  let dlPushButton = document.getElementById('dlPushButton');
+
     colorButton.addEventListener('click', function() {
         let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
         document.body.style.color = randomColor;
         ym(95890673,'reachGoal','test', {'buttonColor':randomColor});
         dataLayer.push({'clickButton':'colorButton_click', 'buttonColor': randomColor});
     });
+
+  dlPushButton.addEventListener('click', function() {
+    window.dataLayer.push({
+      event: 'addEvents_makeConversions',
+      event_cat: 'Кредитный маркетплейс',
+      event_id: 'd-v750-e7',
+      event_name: 'clickButton',
+      event_param: 'Займы / WebBankir / Получить / Высокое одобрение-нет'
+    });
+  });
 
     
 </script>
